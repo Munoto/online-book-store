@@ -1,19 +1,27 @@
 {% extends 'base.html' %}
-
-{% block title %}{{ book.title }}{% endblock %}
+{% block title %}Главная{% endblock %}
 
 {% block content %}
-<div class="book-detail">
-    <h1>{{ book.title }}</h1>
-    <p><strong>Автор:</strong> {{ book.author.name }}</p>
-    <p><strong>Цена:</strong> {{ book.price }} KZT</p>
-    <p><strong>Описание:</strong> {{ book.description }}</p>
-    <p><strong>В наличии:</strong> {{ book.stock }} шт.</p>
-
-    {% if book.cover_image %}
-        <img src="{{ book.cover_image.url }}" alt="{{ book.title }}" class="book-detail-image">
-    {% endif %}
-
-    <a href="{% url 'home' %}" class="btn">Назад к списку книг</a>
+<div class="book-detail-container">
+    <div class="book-detail-card">
+        {% if book.cover_image %}
+            <img src="{{ book.cover_image.url }}" alt="{{ book.title }}" class="book-detail-image">
+        {% endif %}
+        <div class="book-detail-info">
+            {% if request.user.is_staff %}
+                <a href="{% url 'edit_book' book.id %}" class="btn edit-btn">Редактировать</a>
+                <form action="{% url 'delete_book' book.id %}" method="post" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="delete-btn" onclick="return confirm('Вы уверены, что хотите удалить эту книгу?')">Удалить</button>
+                </form>
+            {% endif %}
+            <h2>{{ book.title }}</h2>
+            <p><strong>Автор:</strong> {{ book.author.name }}</p>
+            <p><strong>Цена:</strong> {{ book.price }} KZT</p>
+            <p><strong>В наличии:</strong> {{ book.stock }} шт.</p>
+            <p class="book-description">{{ book.description }}</p>
+        </div>
+    </div>
 </div>
+
 {% endblock %}

@@ -81,7 +81,7 @@
 }
 
 .site-header {
-    background-color: #4a90e2;
+    background-color: #379683FF;
     padding: 15px 0;
     color: white;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
@@ -141,26 +141,31 @@
 .book-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 25px;
+    gap: 20px;
     padding: 20px;
 }
 
 .book-card {
     background-color: #fff;
+    border: 1px solid #ddd;
     border-radius: 12px;
-    padding: 20px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    padding: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     text-align: center;
     transition: transform 0.2s ease;
 }
 
 .book-card:hover {
-    transform: translateY(-5px);
+    transform: scale(1.02);
 }
 
 .book-card h3 {
-    font-size: 20px;
+    font-size: 18px;
     margin: 10px 0 5px;
+    text-align: center;
 }
 
 .book-card .author {
@@ -187,13 +192,15 @@
 }
 
 .book-card .btn {
-    display: inline-block;
-    background-color: #4a90e2;
+    margin-top: 10px;
+    padding: 6px 12px;
+    font-size: 14px;
+    border: none;
+    background-color: #3b82f6;
     color: white;
-    padding: 10px 20px;
-    border-radius: 8px;
+    border-radius: 6px;
+    cursor: pointer;
     text-decoration: none;
-    margin-top: 15px;
 }
 
 .book-card .btn:hover {
@@ -257,20 +264,108 @@
 
 /*book_detail.html*/
 
-.book-detail {
-    max-width: 800px;
-    margin: 0 auto;
+.book-detail-card {
+    margin: 40px auto;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 30px;
+    background: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 16px;
     padding: 20px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
 }
 
-.book-detail img {
-    width: 100%;
-    height: auto;
-    object-fit: contain;
-    margin-top: 20px;
+.book-detail-image {
+    width: 300px;
+    height: 450px;
+    object-fit: cover;
+    border-radius: 12px;
+    flex-shrink: 0;
 }
 
-.book-detail .btn {
-    margin-top: 20px;
+.book-detail-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.edit-btn {
+    padding: 4px 8px; /* Было 4px 10px или больше */
+    font-size: 13px;
+    background-color: #3498db;
+    color: white;
+    border-radius: 4px;
+    text-decoration: none;
     display: inline-block;
+    max-width: fit-content; /* Ограничивает ширину по содержимому */
+    white-space: nowrap; /* Не переносить текст */
+}
+
+.edit-btn:hover {
+    background-color: #2980b9;
+}
+
+.delete-btn {
+    background-color: #e74c3c;
+    color: white;
+    padding: 4px 10px;
+    font-size: 13px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.delete-btn:hover {
+    background-color: #c0392b;
+}
+
+body {
+    background-color: #5cdb95;
+}
+
+.book-card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.book-card-link:hover .book-card {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    transform: translateY(-3px);
+}
+
+/* cart.html */
+
+.cart-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-size: 15px;
+}
+
+.cart-table th, .cart-table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: center;
+}
+
+.cart-table thead {
+    background-color: #f7f7f7;
+    font-weight: bold;
+}
+
+.cart-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.empty-cart {
+    text-align: center;
+    font-size: 18px;
+    color: #888;
+    margin-top: 40px;
 }
