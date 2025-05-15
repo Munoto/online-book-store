@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load order_filters %}
+{% block title %}Детали заказа #{{ order.id }}{% endblock %}
+
+{% block content %}
+<h2 class="text-center my-4">Детали заказа #{{ order.id }}</h2>
+
+<div class="container">
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-8 col-lg-10">
+            <div class="card shadow-2-strong mb-5" style="border-radius: 16px;">
+                <div class="card-body p-4">
+                    <h5 class="card-title">Информация о заказе</h5>
+                    <div class="mb-3">
+                        <p><strong>Дата заказа:</strong> {{ order.created_at }}</p>
+                        <p><strong>Адрес:</strong> {{ order.address }}</p>
+                        <p><strong>Город:</strong> {{ order.city }}</p>
+                        <p><strong>Почтовый индекс:</strong> {{ order.postal_code }}</p>
+                        <p><strong>Статус:</strong> {{ order.get_status_display }}</p>
+                        <p><strong>Общая сумма:</strong> {{ order.total_price }} KZT</p>
+                    </div>
+
+                    <h5 class="card-title">Содержимое заказа</h5>
+                    <table class="table table-striped mt-3">
+                        <thead>
+                            <tr>
+                                <th>Книга</th>
+                                <th>Количество</th>
+                                <th>Цена</th>
+                                <th>Итого</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in order_items %}
+                            <tr>
+                                <td>{{ item.book.title }}</td>
+                                <td>{{ item.quantity }}</td>
+                                <td>{{ item.price }} KZT</td>
+                                <td>{{ item.quantity|multiply:item.price }} KZT</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+
+                    <a href="{% url 'profile' %}" class="btn btn-secondary mt-3">Назад к профилю</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

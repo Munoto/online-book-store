@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}Доставка{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Введите адрес доставки</h2>
+    <form method="post" class="col-md-6 mx-auto">
+        {% csrf_token %}
+        
+        <div class="mb-3">
+            <label for="id_address" class="form-label">Адрес доставки</label>
+            {{ form.address }}
+        </div>
+
+        <div class="mb-3">
+            <label for="id_city" class="form-label">Город</label>
+            {{ form.city }}
+        </div>
+
+        <div class="mb-3">
+            <label for="id_postal_code" class="form-label">Почтовый индекс</label>
+            {{ form.postal_code }}
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100 mt-3">Оформить заказ</button>
+    </form>
+</div>
+{% endblock %}

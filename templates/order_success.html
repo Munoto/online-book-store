@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block title %}Заказ оформлен{% endblock %}
+
+{% block content %}
+<div class="container text-center mt-5">
+    <h2>Спасибо за ваш заказ!</h2>
+    <p>Мы скоро с вами свяжемся для подтверждения.</p>
+    <a href="{% url 'home' %}" class="btn btn-primary mt-3">На главную</a>
+</div>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ author.name }}{% endblock %}
+
+{% block content %}
+<div class="container mt-3">
+    <div class="author-profile text-center">
+        <div class="author-photo mb-3">
+            <img src="{{ author.photo.url }}" alt="{{ author.name }}" class="rounded-circle" style="width: 150px; height: 150px; object-fit: cover;">
+        </div>
+        <h2>{{ author.name }}</h2>
+        <p><strong>Дата рождения:</strong> {{ author.birth_date }}</p>
+        <p><strong>Биография:</strong> {{ author.biography }}</p>
+    </div>
+
+    <h3 class="mt-4 text-center mb-3">Книги автора</h3>
+    <div class="row">
+        {% for book in books %}
+            <div class="col-md-3 col-sm-6 mb-4">
+                <div class="card">
+                    <a href="{% url 'book_detail' book.id %}" class="text-decoration-none">
+                        <img src="{{ book.cover_image.url }}" alt="{{ book.title }}" class="card-img-top">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ book.title }}</h5>
+                            <p class="card-text">{{ book.price }} KZT</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        {% empty %}
+            <p>У этого автора нет книг.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

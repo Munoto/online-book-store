@@ -7,42 +7,91 @@
     <h2>Добавление новой книги</h2>
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
-        {{ form.non_field_errors }}
+
+
+        {% if form.errors %}
+        <div class="alert alert-danger">
+            <ul>
+                {% for field in form %}
+                    {% for error in field.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
 
         <div class="form-group">
             <label for="id_title">Название:</label>
             {{ form.title }}
         </div>
 
+
         <div class="form-group">
-            <label for="id_author">Автор:</label>
-            <div style="display: flex; gap: 10px; align-items: center;">
-                {{ form.author }}
-                <a href="{% url 'create_author' %}" class="btn btn-outline-primary">Добавить автора</a>
-            </div>
+            <label for="id_authors">Авторы:</label>
+            {{ form.authors }}
+            <small class="form-text text-muted">{{ form.authors.help_text }}</small>
+            <br>
+            <a href="{% url 'create_author' %}" class="btn btn-secondary btn-sm mt-2">Добавить нового автора</a> <!-- Кнопка для добавления автора -->
         </div>
+
+
+        <div class="form-group">
+            <label for="id_genres">Жанры:</label>
+            {{ form.genres }}
+            <small class="form-text text-muted">{{ form.genres.help_text }}</small>
+            <br>
+            <a href="{% url 'create_genre' %}" class="btn btn-secondary btn-sm mt-2">Добавить новый жанр</a> <!-- Кнопка для добавления жанра -->
+        </div>
+
 
         <div class="form-group">
             <label for="id_price">Цена:</label>
             {{ form.price }}
         </div>
 
+
         <div class="form-group">
             <label for="id_stock">В наличии:</label>
             {{ form.stock }}
         </div>
+
 
         <div class="form-group">
             <label for="id_description">Описание:</label>
             {{ form.description }}
         </div>
 
+
         <div class="form-group">
             <label for="id_cover_image">Обложка книги:</label>
             {{ form.cover_image }}
         </div>
 
-        <button type="submit" class="submit-button">Сохранить книгу</button>
+        <button type="submit" class="btn btn-primary">Сохранить книгу</button>
     </form>
 </div>
+
+{% block extra_js %}
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+
+<script>
+    // Инициализация Select2 для полей авторов и жанров
+    $(document).ready(function() {
+        $('#id_authors').select2({
+            placeholder: "Выберите авторов",
+            width: '100%'
+        });
+        $('#id_genres').select2({
+            placeholder: "Выберите жанры",
+            width: '100%'
+        });
+    });
+</script>
+{% endblock %}
+
 {% endblock %}

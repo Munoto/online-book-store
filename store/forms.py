@@ -1,10 +1,9 @@
 from django import forms
 from django.contrib.auth import authenticate
 from django.contrib.auth.forms import UserCreationForm
-from .models import CustomUser, Book, Author
+from .models import CustomUser, Book, Author, Genre
 
 
-# Форма для регистрации:
 class CustomUserCreationForm(UserCreationForm):
     class Meta:
         model = CustomUser
@@ -33,17 +32,27 @@ class CustomLoginForm(forms.Form):
 class BookForm(forms.ModelForm):
     class Meta:
         model = Book
-        fields = ['title', 'author', 'price', 'stock', 'description', 'cover_image']  # Указываем все нужные поля
-
+        fields = ['title', 'authors', 'genres', 'price', 'stock', 'description', 'cover_image']
         widgets = {
-            'Название': forms.TextInput(attrs={'class': 'form-control'}),
-            'Автор': forms.Select(attrs={'class': 'form-control'}),
-            'Цена': forms.NumberInput(attrs={'class': 'form-control'}),
-            'В наличии': forms.NumberInput(attrs={'class': 'form-control'}),
-            'Описание': forms.Textarea(attrs={'class': 'form-control', 'rows': 4}),
-            'Обложка': forms.ClearableFileInput(attrs={'class': 'form-control'}),
+            'description': forms.Textarea(attrs={'rows': 4, 'cols': 50}),
+            'cover_image': forms.ClearableFileInput(attrs={'multiple': False}),
         }
 
+    authors = forms.ModelMultipleChoiceField(
+        queryset=Author.objects.all(),
+        widget=forms.SelectMultiple(attrs={'class': 'select2'}),
+        required=True,
+        label="Авторы",
+        help_text="Выберите одного или нескольких авторов"
+    )
+
+    genres = forms.ModelMultipleChoiceField(
+        queryset=Genre.objects.all(),
+        widget=forms.SelectMultiple(attrs={'class': 'select2'}),
+        required=True,
+        label="Жанры",
+        help_text="Выберите один или несколько жанров"
+    )
 
 class AuthorForm(forms.ModelForm):
     class Meta:
@@ -55,3 +64,39 @@ class AuthorForm(forms.ModelForm):
             'Биография': forms.Textarea(attrs={'class': 'form-control', 'rows': 4}),
             'Фото автора': forms.ClearableFileInput(attrs={'class': 'form-control'}),
         }
+
+
+
+class GenreForm(forms.ModelForm):
+    class Meta:
+        model = Genre
+        fields = ['name']
+        labels = {'name': 'Жанр'}
+
+
+
+class ShippingForm(forms.Form):
+    address = forms.CharField(
+        max_length=255,
+        label='Адрес доставки',
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Введите ваш адрес'
+        })
+    )
+    city = forms.CharField(
+        max_length=100,
+        label='Город',
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Введите ваш город'
+        })
+    )
+    postal_code = forms.CharField(
+        max_length=20,
+        label='Почтовый индекс',
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Введите ваш почтовый индекс'
+        })
+    )
